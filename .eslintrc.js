@@ -24,11 +24,28 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'react/jsx-filename-extension': [
+      2,
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
     // Include .prettierrc.js rules
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'prettier/prettier': ['warn', {}, { usePrettierrc: true }],
     // We will use TypeScript's types for component props instead
     'react/prop-types': 'off',
     // We don't want unused vars
-    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    'no-param-reassign': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    'prettier/prettier': 'warn',
   },
 };
