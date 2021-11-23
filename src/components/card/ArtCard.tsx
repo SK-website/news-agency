@@ -1,30 +1,21 @@
 import React, { FC } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import { Grid } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+import { Card, CardActions, CardMedia, Button, Grid } from '@mui/material';
+
 import './card.scss';
 
-interface ArtCardProps {
+export interface ArtCardProps {
+  id: string;
   date: string;
-  link: string;
   media: string;
-  title: string;
-  summary: string;
   breif: string;
+  briefTitle: string;
 }
 
-const ArtCard: FC<ArtCardProps> = ({
-  date,
-  link,
-  media,
-  title,
-  summary,
-  breif,
-}) => {
+const ArtCard: FC<ArtCardProps> = ({ id, date, media, breif, briefTitle }) => {
+  const location = useLocation();
   return (
-    <Grid item xs={12} md={6} lg={4} sx={{ p: 0 }}>
+    <Grid item spacing={2} xs={12} md={6} lg={4} sx={{ p: 0 }}>
       <Card
         sx={{
           maxWidth: 400,
@@ -36,17 +27,25 @@ const ArtCard: FC<ArtCardProps> = ({
           component="img"
           alt="picture"
           height="217"
-          // width="100%"
           sx={{ maxWidth: 400, borderBottom: '1px solid rgb(220, 220, 220)' }}
           image={media}
         />
         <div className="card-content">
           <div className="date">{date}</div>
-          <div className="art-title">{title}</div>
+          <div className="art-title">{briefTitle}</div>
           <div className="art-title-description">{breif}</div>
         </div>
         <CardActions>
-          <Button size="small">Read more</Button>
+          <Button size="small">
+            <Link
+              to={{
+                pathname: `/details/${id}`,
+                state: { prevPath: location.pathname },
+              }}
+            >
+              Read more
+            </Link>
+          </Button>
         </CardActions>
       </Card>
     </Grid>

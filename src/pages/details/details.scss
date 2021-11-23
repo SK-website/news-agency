@@ -1,0 +1,50 @@
+.detailes-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.details-picture {
+  position: absolute;
+  width: 100%;
+  min-height: 245px;
+  overflow: auto;
+}
+
+.details-card {
+  position: relative;
+  max-width: 129rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  top: 150px; /* Положение от верхнего края */
+}
+
+.card-datails-content {
+  margin: 0 auto;
+  margin-top: 3.5rem;
+  max-width: 114rem;
+  color: #000000;
+}
+.art-title-details {
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.art-summary {
+  margin-top: 5rem;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.details-link,
+.ditails-back-button {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 150%;
+  color: #363636;
+}

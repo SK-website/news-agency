@@ -29,6 +29,7 @@ export interface Article {
   twitter_account: string | null;
   _scrore: 5.401865;
   breif: string;
+  breifTitle: string;
 }
 
 const initialState: ArticlesState = {
@@ -54,10 +55,17 @@ export const articlesSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    setQuery: (state, action: PayloadAction<string>) => {
+      state.query = action.payload;
+    },
   },
 });
 
-export const { fetchArticlesStart, fetchArticlesSuccess, fetchArticlesError } =
-  articlesSlice.actions;
+export const {
+  fetchArticlesStart,
+  fetchArticlesSuccess,
+  fetchArticlesError,
+  setQuery,
+} = articlesSlice.actions;
 
 export default articlesSlice.reducer;

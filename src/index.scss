@@ -3,6 +3,7 @@ html {
 }
 
 $main-font-color: #363636;
+$main-background: #ffffff;
 
 body {
   margin: 0;
@@ -30,6 +31,7 @@ code {
   min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
   color: $main-font-color;
+  background-color: $main-background;
 }
 
 ol,

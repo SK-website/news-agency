@@ -31,7 +31,6 @@ const getData = async (query = `Apple`): Promise<ArtData[]> => {
     },
   });
   const result = await response.json();
-  console.log(result.articles);
   return result.articles;
 
   // if (Math.round(response?.status / 100) === 2) {

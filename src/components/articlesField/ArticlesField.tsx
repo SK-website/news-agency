@@ -1,37 +1,64 @@
+/* eslint-disable no-underscore-dangle */
 import React, { FC, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import ArtCard from '../card/Card';
+import ArtCard from '../card/ArtCard';
 import getData from '../../services/api';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { articlesState } from '../../store/store';
 import {
-  Article,
-  fetchArticlesStart,
-  fetchArticlesError,
-  fetchArticlesSuccess,
-} from '../../store/reducers/articlesReducer';
+  useAppSelector,
+  useAppDispatch,
+  useFetchArticles,
+} from '../../store/hooks';
+import { articlesState } from '../../store/store';
+import { Article } from '../../store/reducers/articlesReducer';
+
+export interface SortedArticle {
+  _id: string;
+  score: number;
+  author: string;
+  authors: string[];
+  clean_url: string;
+  country: string;
+  is_opinion: boolean;
+  language: string;
+  link: string;
+  media: string;
+  published_date: string;
+  published_date_precision: string;
+  rank: number;
+  rights: string;
+  summary: string;
+  title: string;
+  topic: string;
+  twitter_account: string | null;
+  _scrore: 5.401865;
+  breif: string;
+  breifTitle: string;
+  foundInTitle: number;
+  foundInSummary: number;
+}
 
 const ArticlesField: FC = () => {
   const { query, error, articles } = useAppSelector(articlesState);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const fetchArticles = useFetchArticles();
 
-  const fetchArticles = async (keyStr: string) => {
-    try {
-      dispatch(fetchArticlesStart);
-      const response = await getData(keyStr);
-      const art = response as Article[];
-      const articlesFromResponse = art.map((el) => {
-        el.breif = `${el.summary.substr(0, 96)}...`;
-        return el;
-      });
-      setTimeout(
-        () => dispatch(fetchArticlesSuccess(articlesFromResponse)),
-        500
-      );
-    } catch (er) {
-      console.log(er);
-      dispatch(fetchArticlesError('ERROR on loading'));
-    }
+  const sortArticles = (arr: Article[], keyWords: string) => {
+    const queryArr = keyWords.toLowerCase().split(' ');
+    const sortedArr: SortedArticle[] = JSON.parse(JSON.stringify(arr));
+    sortedArr.forEach((el) => {
+      for (let i = 0; i < queryArr.length; i += 1) {
+        const summarytoLC = el.summary.toLowerCase().split(' ');
+        const titletoLC = el.title.toLowerCase().split(' ');
+        const amountTitle = titletoLC.filter((v) => v === queryArr[i]);
+        const amountSum = summarytoLC.filter((v) => v === queryArr[i]);
+        el.foundInTitle = (el.foundInTitle || 0) + Number(amountTitle.length);
+        el.foundInSummary = (el.foundInSummary || 0) + Number(amountSum.length);
+      }
+    });
+    sortedArr
+      .sort((prev, next) => next.foundInSummary - prev.foundInSummary)
+      .sort((prev, next) => next.foundInTitle - prev.foundInTitle);
+    return sortedArr;
   };
 
   useEffect(() => {
@@ -42,17 +69,15 @@ const ArticlesField: FC = () => {
     <>
       {error && <p>{error}</p>}
       {articles && (
-        <Grid container sx={{ maxWidth: '1290px', mt: '45px' }}>
-          {articles.map((el) => {
+        <Grid container spacing={2} sx={{ maxWidth: '1290px', mt: '45px' }}>
+          {sortArticles(articles, query).map((el) => {
             return (
               <ArtCard
-                // eslint-disable-next-line no-underscore-dangle
                 key={el._id}
+                id={el._id}
                 date={el.published_date}
-                title={el.title}
+                briefTitle={el.breifTitle}
                 media={el.media}
-                link={el.link}
-                summary={el.summary}
                 breif={el.breif}
               />
             );
