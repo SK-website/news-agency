@@ -1,15 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import React, { FC, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import ArtCard from '../card/ArtCard';
-import getData from '../../services/api';
-import {
-  useAppSelector,
-  useAppDispatch,
-  useFetchArticles,
-} from '../../store/hooks';
+import { useAppSelector, useFetchArticles } from '../../store/hooks';
 import { articlesState } from '../../store/store';
 import { Article } from '../../store/reducers/articlesReducer';
+import ArtCard from '../artCard/ArtCard';
 
 export interface SortedArticle {
   _id: string;
@@ -39,7 +34,6 @@ export interface SortedArticle {
 
 const ArticlesField: FC = () => {
   const { query, error, articles } = useAppSelector(articlesState);
-  // const dispatch = useAppDispatch();
   const fetchArticles = useFetchArticles();
 
   const sortArticles = (arr: Article[], keyWords: string) => {
@@ -67,16 +61,16 @@ const ArticlesField: FC = () => {
 
   return (
     <>
-      {error && <p>{error}</p>}
+      {error ? <p>{error}</p> : null}
       {articles && (
-        <Grid container spacing={2} sx={{ maxWidth: '1290px', mt: '45px' }}>
+        <Grid container spacing={2} sx={{ maxWidth: 1290, mt: '45px' }}>
           {sortArticles(articles, query).map((el) => {
             return (
               <ArtCard
                 key={el._id}
                 id={el._id}
                 date={el.published_date}
-                briefTitle={el.breifTitle}
+                breifTitle={el.breifTitle}
                 media={el.media}
                 breif={el.breif}
               />

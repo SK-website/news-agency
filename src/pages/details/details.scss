@@ -18,15 +18,14 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  top: 150px; /* Положение от верхнего края */
+  align-items: flex-start;
+  top: 150px;
 }
 
 .card-datails-content {
   margin: 0 auto;
   margin-top: 3.5rem;
   max-width: 114rem;
-  color: #000000;
 }
 .art-title-details {
   margin-top: 5rem;
@@ -39,12 +38,14 @@
   margin-top: 5rem;
   font-size: 18px;
   line-height: 27px;
+  color: #000000;
 }
 
 .details-link,
-.ditails-back-button {
+.details-back-button {
   font-weight: bold;
   font-size: 16px;
-  line-height: 150%;
-  color: #363636;
+  line-height: 24px;
+  text-transform: none;
+  vertical-align: top;
 }

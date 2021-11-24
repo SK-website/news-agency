@@ -18,15 +18,17 @@ export const useFetchArticles = () => {
       dispatch(fetchArticlesStart);
       const response = await getData(keyStr);
       const art = response as Article[];
-      const articlesFromResponse = art.map((el) => {
-        el.breif = `${el.summary.substr(0, 96)}...`;
-        el.breifTitle = `${el.title.substr(0, 49)}...`;
+      const articlesFromResponse = art?.map((el) => {
+        el.breif = `${el.summary.substr(0, 99)}...`;
+        el.breifTitle =
+          el.title.length <= 45
+            ? (el.breifTitle = el.title)
+            : `${el.title.substr(0, 44)}...`;
         return el;
       });
-      console.log(articlesFromResponse, '1');
       setTimeout(
         () => dispatch(fetchArticlesSuccess(articlesFromResponse)),
-        500
+        100
       );
     } catch (er) {
       dispatch(fetchArticlesError('ERROR on loading'));
