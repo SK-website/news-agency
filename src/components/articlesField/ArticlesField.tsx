@@ -59,7 +59,7 @@ const ArticlesField: FC = () => {
 
   useEffect(() => {
     fetchArticles(query);
-  }, []);
+  }, [query]);
 
   if (isLoading) return null;
   if (error) return <p>{error}</p>;
