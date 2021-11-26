@@ -15,6 +15,7 @@ const Details: FC = () => {
   const { articles } = useAppSelector(articlesState);
   const history = useHistory();
   const { id } = params;
+  // as api does not allow to receive an article by ID, this page gets article from the state
   const requestedArticle: Article | undefined = articles.find(
     (el) => el._id === id
   );
