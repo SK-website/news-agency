@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ArtData } from '../../services/api';
 
 interface ArticlesState {
   query: string;
   articles: Article[];
   isLoading: boolean;
   error: null | string;
+  notFound: boolean;
 }
 
 export interface Article {
@@ -37,6 +37,7 @@ const initialState: ArticlesState = {
   articles: [],
   isLoading: false,
   error: null,
+  notFound: false,
 };
 
 export const articlesSlice = createSlice({
@@ -46,6 +47,7 @@ export const articlesSlice = createSlice({
     fetchArticlesStart: (state) => {
       state.isLoading = true;
       state.error = null;
+      state.notFound = false;
     },
     fetchArticlesSuccess: (state, action: PayloadAction<Array<Article>>) => {
       state.articles = action.payload;
@@ -58,6 +60,9 @@ export const articlesSlice = createSlice({
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    setNotFoundStatus: (state, action: PayloadAction<boolean>) => {
+      state.notFound = action.payload;
+    },
   },
 });
 
@@ -66,6 +71,7 @@ export const {
   fetchArticlesSuccess,
   fetchArticlesError,
   setQuery,
+  setNotFoundStatus,
 } = articlesSlice.actions;
 
 export default articlesSlice.reducer;

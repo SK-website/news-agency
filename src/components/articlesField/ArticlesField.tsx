@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 import { useAppSelector, useFetchArticles } from '../../store/hooks';
 import { articlesState } from '../../store/store';
 import { Article } from '../../store/reducers/articlesReducer';
+import './articlesField.scss';
 import ArtCard from '../artCard/ArtCard';
 
 export interface SortedArticle {
@@ -33,7 +34,8 @@ export interface SortedArticle {
 }
 
 const ArticlesField: FC = () => {
-  const { query, error, articles } = useAppSelector(articlesState);
+  const { query, error, articles, isLoading, notFound } =
+    useAppSelector(articlesState);
   const fetchArticles = useFetchArticles();
 
   const sortArticles = (arr: Article[], keyWords: string) => {
@@ -41,10 +43,10 @@ const ArticlesField: FC = () => {
     const sortedArr: SortedArticle[] = JSON.parse(JSON.stringify(arr));
     sortedArr.forEach((el) => {
       for (let i = 0; i < queryArr.length; i += 1) {
-        const summarytoLC = el.summary.toLowerCase().split(' ');
-        const titletoLC = el.title.toLowerCase().split(' ');
-        const amountTitle = titletoLC.filter((v) => v === queryArr[i]);
-        const amountSum = summarytoLC.filter((v) => v === queryArr[i]);
+        const summaryToLC = el.summary.toLowerCase().split(' ');
+        const breifTitleToLC = el.breifTitle.toLowerCase().split(' ');
+        const amountTitle = breifTitleToLC.filter((v) => v === queryArr[i]);
+        const amountSum = summaryToLC.filter((v) => v === queryArr[i]);
         el.foundInTitle = (el.foundInTitle || 0) + Number(amountTitle.length);
         el.foundInSummary = (el.foundInSummary || 0) + Number(amountSum.length);
       }
@@ -59,10 +61,18 @@ const ArticlesField: FC = () => {
     fetchArticles(query);
   }, []);
 
+  if (isLoading) return null;
+  if (error) return <p>{error}</p>;
+  if (notFound)
+    return (
+      <div className="no-results">
+        Sorry...No articles matching your search were found.
+      </div>
+    );
+
   return (
     <>
-      {error ? <p>{error}</p> : null}
-      {articles && (
+      {articles?.length && (
         <Grid container spacing={2} sx={{ maxWidth: 1290, mt: '45px' }}>
           {sortArticles(articles, query).map((el) => {
             return (

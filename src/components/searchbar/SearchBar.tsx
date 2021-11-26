@@ -1,25 +1,17 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Divider, InputAdornment, TextField } from '@mui/material';
+import React, { ChangeEvent, FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import {
-  useAppDispatch,
-  useAppSelector,
-  useFetchArticles,
-} from '../../store/hooks';
+import { InputAdornment, TextField } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { articlesState } from '../../store/store';
 
 import './searchBar.scss';
 import { setQuery } from '../../store/reducers/articlesReducer';
+import Loader from '../loader/Loader';
 
 const SearchBar: FC = () => {
-  const { query } = useAppSelector(articlesState);
+  const { query, articles, isLoading } = useAppSelector(articlesState);
   const [value, setValue] = useState(query);
   const dispatch = useAppDispatch();
-  const fetchArticles = useFetchArticles();
-
-  useEffect(() => {
-    fetchArticles(query);
-  }, [query]);
 
   const handelInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue(e.target.value);
@@ -63,8 +55,11 @@ const SearchBar: FC = () => {
           variant="outlined"
         />
       </div>
-      <div className="results">Results:</div>
-      <Divider />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="results">Results: {articles?.length}</div>
+      )}
     </>
   );
 };

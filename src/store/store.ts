@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { articlesSlice } from './reducers/articlesReducer';
 

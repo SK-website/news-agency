@@ -1,10 +1,15 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { FC } from 'react';
+import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { Card, CardActions, CardMedia, Button, Grid } from '@mui/material';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import moment from 'moment';
 import { ArrowForward } from '@mui/icons-material';
 import './artCard.scss';
+import { useAppSelector } from '../../store/hooks';
+import { articlesState } from '../../store/store';
+import HightLight from '../HightLight';
 
 export interface ArtCardProps {
   id: string;
@@ -16,33 +21,12 @@ export interface ArtCardProps {
 
 const ArtCard: FC<ArtCardProps> = ({ id, date, media, breif, breifTitle }) => {
   const history = useHistory();
+  const { query } = useAppSelector(articlesState);
 
   const getDate = (dateInfo: string) => {
     const arr = dateInfo.split(' ');
     return moment(arr[0]).format('Do MMMM, YYYY');
   };
-
-  // const hightLight = (text: string, keyWords: string): JSX.Element[] => {
-  //   const str = text;
-  //   const arrOfWords = keyWords.split(' ');
-  //   const arrOfRegExp: Array<Array<RegExp | string>> = [];
-  //   arrOfWords.forEach((el) => {
-  //     const regexp = new RegExp(el, 'ig');
-  //     arrOfRegExp.push([regexp, el]);
-  //   });
-  //   arrOfRegExp.forEach((el) => {
-  //     str.replace(el[0], `<>${el[1]}</>`);
-  //   });
-  //   return str.split(' ').map((el) => {
-  //     for (let i = 0; i < arrOfRegExp.length; i += 1) {
-  //       return el.match(arrOfRegExp[i]) ? (
-  //         <span className="light">{el}</span>
-  //       ) : (
-  //         <>{el}</>
-  //       );
-  //     }
-  //   });
-  // };
 
   return (
     <Grid item xs={12} md={6} lg={4} sx={{ p: 0 }}>
@@ -68,8 +52,12 @@ const ArtCard: FC<ArtCardProps> = ({ id, date, media, breif, breifTitle }) => {
             />
             <p className="date">{getDate(date)}</p>
           </div>
-          <div className="art-title">{breifTitle}</div>
-          <div className="art-title-description">{breif}</div>
+          <div className="art-title">
+            <HightLight text={breifTitle} keyWords={query} />
+          </div>
+          <div className="art-title-description">
+            <HightLight text={breif} keyWords={query} />
+          </div>
           <CardActions sx={{ p: 0 }}>
             <Button
               sx={{ mt: '20px', p: 0, color: 'inherit' }}

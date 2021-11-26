@@ -19,7 +19,6 @@ module.exports = {
     jest: true,
     node: true,
   },
-  // Airbnb's ESLint config requires this
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -38,11 +37,9 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    // Include .prettierrc.js rules
     'prettier/prettier': ['warn', {}, { usePrettierrc: true }],
-    // We will use TypeScript's types for component props instead
     'react/prop-types': 'off',
-    // We don't want unused vars
+    'no-console': 'off',
     '@typescript-eslint/no-unused-vars': ['warn'],
     'no-param-reassign': 'off',
     'react-hooks/exhaustive-deps': 'off',
