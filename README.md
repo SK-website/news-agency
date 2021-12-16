@@ -4,7 +4,6 @@
 Test description:
 
 Use any open API to get article names and descriptions. 
-
 Here are a few examples:
 - https://newsapi.org/
 - https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/bing-news-search1
