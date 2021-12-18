@@ -1,6 +1,8 @@
 # News agency
 #### Link to deploy: https://sk-news-service.netlify.app/
 
+Used technologies: TypeScript, ReactJS, React Hooks, Redux Toolkit, React Router, Material UI, SCSS
+
 Test description:
 
 Use any open API to get article names and descriptions. 
